@@ -1,0 +1,139 @@
+
+---
+
+ Pandas Quick Revision Sheet
+
+ 1. Basics
+
+import pandas as pd
+
+Series → 1D labeled array
+
+s = pd.Series([1, 2, 3], index=['a', 'b', 'c'])
+
+DataFrame → 2D labeled data structure
+
+df = pd.DataFrame({"A": [1,2], "B": [3,4]})
+
+
+
+---
+
+2. Data Input / Output
+
+pd.read_csv("file.csv")         # read CSV
+df.to_csv("file.csv", index=False)
+
+pd.read_excel("file.xlsx")      # read Excel
+df.to_excel("file.xlsx")
+
+pd.read_json("file.json")       # read JSON
+
+
+---
+
+3. Inspecting Data
+
+df.head()       # first 5 rows
+df.tail()       # last 5 rows
+df.info()       # summary
+df.shape        # rows, cols
+df.describe()   # stats
+df.dtypes       # data types
+
+
+---
+
+4. Selection & Indexing
+
+df['A']                  # column
+df[['A','B']]            # multiple columns
+df.iloc[0]               # row by index
+df.loc[0, 'A']           # row+col by label
+df.iloc[0:3]             # first 3 rows
+df.loc[:, 'A':'C']       # slice cols
+
+
+---
+
+5. Filtering
+
+df[df['A'] > 10]
+df[(df['A'] > 10) & (df['B'] < 20)]
+df.query("A > 10 & B < 20")
+
+
+---
+
+ 6. Modifying Data
+
+df['C'] = df['A'] + df['B']        # new column
+df.drop('C', axis=1, inplace=True) # drop column
+df.drop(0, axis=0)                 # drop row
+df.rename(columns={'A':'Alpha'}, inplace=True)
+df['A'].replace(1, 100, inplace=True)
+
+
+---
+
+7. Handling Missing Data
+
+df.isnull().sum()
+df.dropna()             # drop rows with NaN
+df.fillna(0)            # replace NaN with 0
+df.fillna(df.mean())    # replace NaN with mean
+
+
+---
+
+ 8. Grouping & Aggregation
+
+df.groupby('Category')['Sales'].mean()
+df.groupby('Category').agg({'Sales':'sum','Profit':'mean'})
+
+
+---
+
+ 9. Sorting
+
+df.sort_values(by='A')
+df.sort_values(by=['A','B'], ascending=[True, False])
+df.sort_index()
+
+
+---
+
+10. Merging / Joining
+
+pd.concat([df1, df2], axis=0)         # append rows
+pd.concat([df1, df2], axis=1)         # side by side
+pd.merge(df1, df2, on='id')           # inner join
+pd.merge(df1, df2, how='left', on='id')
+
+
+---
+
+11. Useful Functions
+
+df['A'].unique()       # unique values
+df['A'].nunique()      # count unique
+df['A'].value_counts() # frequency
+
+df.apply(lambda x: x*2)
+df['A'].map(lambda x: x**2)
+
+df.sample(5)           # random rows
+df.nlargest(5, 'A')    # top 5 by A
+df.nsmallest(5, 'B')   # bottom 5 by B
+
+
+---
+
+12. Time Series
+
+df['Date'] = pd.to_datetime(df['Date'])
+df.set_index('Date', inplace=True)
+df['2023-01']          # filter Jan 2023
+df.resample('M').sum() # monthly sum
+
+
